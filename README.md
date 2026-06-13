@@ -81,14 +81,28 @@ List all my pending todos
 If you want to run your own instance:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/personal-toolkit-mcp-server
+git clone https://github.com/SANDEEP-KR-MAHTO/personal-toolkit-mcp-server.git
 cd personal-toolkit-mcp-server
 python -m venv venv
-source venv/bin/activate       # Windows: venv\Scripts\activate
+venv\Scripts\activate          # Windows (Mac/Linux: source venv/bin/activate)
 pip install -r requirements.txt
 ```
 
 Add to `claude_desktop_config.json`:
+
+**Windows:**
+```json
+{
+  "mcpServers": {
+    "personal-toolkit-local": {
+      "command": "C:\\path\\to\\venv\\Scripts\\python.exe",
+      "args": ["C:\\path\\to\\server.py"]
+    }
+  }
+}
+```
+
+**Mac/Linux:**
 ```json
 {
   "mcpServers": {
