@@ -64,5 +64,10 @@ mcp.tool()(clear_completed)
 # ── Entry point ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import os
-    port = int(os.environ.get("PORT", 8000))  # Railway injects PORT automatically
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
+    if os.environ.get("RAILWAY_ENVIRONMENT"):
+        # Running on Railway → use HTTP transport
+        port = int(os.environ.get("PORT", 8000))
+        mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
+    else:
+        # Running locally → use stdio transport (Claude Desktop)
+        mcp.run()
