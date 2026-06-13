@@ -1,0 +1,18 @@
+# Virtual environments
+venv/
+lmcp/
+env/
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Data files
+todos.json
+
+# IDE
+.vscode/
+.idea/
