@@ -1,83 +1,133 @@
 # 🛠️ Personal Utility Toolkit — MCP Server
 
-A local MCP server built with [FastMCP](https://github.com/jlowin/fastmcp)
-that plugs directly into Claude Desktop.
+A **remote MCP server** built with [FastMCP](https://github.com/jlowin/fastmcp) and deployed on Railway.
+Plug it into Claude Desktop and get 17 utility tools instantly — no setup, no local dependencies.
 
-## Tools
+---
 
-| Category | Tool | Description |
-|----------|------|-------------|
-| 📝 Text | `word_count` | Words, chars, sentences |
-| 📝 Text | `reverse_text` | Reverse a string |
-| 📝 Text | `text_to_uppercase` | Convert text to uppercase |
-| 📝 Text | `text_to_lowercase` | Convert text to lowercase |
-| 📝 Text | `count_vowels` | Count vowels and consonants |
-| 📝 Text | `extract_emails` | Pull emails from text |
-| 📝 Text | `generate_password` | Secure password generator |
-| 🔢 Math | `basic_calculator` | Safe expression evaluator |
-| 🔢 Math | `unit_converter` | Length / weight / temperature |
-| 🔢 Math | `prime_check` | Primality + factorization |
-| ✅ Todo | `add_todo` | Add a todo with priority |
-| ✅ Todo | `list_todos` | Filter pending / done |
-| ✅ Todo | `complete_todo` | Mark done by ID |
-| ✅ Todo | `delete_todo` | Remove by ID |
-| ✅ Todo | `clear_completed` | Wipe all completed todos |
+## ⚡ Quick Connect (Remote — No Installation Needed)
 
-## Quick Start
+Add this to your `claude_desktop_config.json`:
 
-```bash
-git clone https://github.com/YOUR_USERNAME/local-mcp-server
-cd local-mcp-server
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-## Connect to Claude Desktop
-
-Add this block to your `claude_desktop_config.json`:
-
-- **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+**Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
-    "personal-toolkit": {
-      "command": "/absolute/path/to/venv/bin/python",
-      "args": ["/absolute/path/to/server.py"]
+    "personal-toolkit-remote": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://web-production-2f9c2.up.railway.app/mcp"]
     }
   }
 }
 ```
 
-> 💡 On Windows use `venv\\Scripts\\python.exe`
+> **Requires:** [Node.js](https://nodejs.org) installed on your machine.  
+> Restart Claude Desktop after saving — that's it! 🎉
 
-Restart Claude Desktop — you'll see the 🔨 tools icon appear!
+---
 
-## Try These Prompts
+## 🧰 Available Tools
+
+### 📝 Text Tools
+| Tool | Description |
+|------|-------------|
+| `word_count` | Count words, characters, sentences, paragraphs |
+| `reverse_text` | Reverse any string |
+| `text_to_uppercase` | Convert text to UPPERCASE |
+| `text_to_lowercase` | Convert text to lowercase |
+| `count_vowels` | Count vowels and consonants |
+| `count_character` | Count occurrences of a specific character |
+| `character_frequency` | Frequency of every character ranked by count |
+| `extract_emails` | Pull all email addresses from a block of text |
+| `generate_password` | Generate a secure random password |
+
+### 🔢 Math Tools
+| Tool | Description |
+|------|-------------|
+| `basic_calculator` | Safely evaluate math expressions (`sqrt`, `log`, `sin`, etc.) |
+| `unit_converter` | Convert length, weight, and temperature units |
+| `prime_check` | Check if a number is prime + get its factors |
+
+### ✅ Todo Tools
+| Tool | Description |
+|------|-------------|
+| `add_todo` | Add a todo with priority (low / medium / high) |
+| `list_todos` | List all, pending, or completed todos |
+| `complete_todo` | Mark a todo as done by ID |
+| `delete_todo` | Delete a todo by ID |
+| `clear_completed` | Remove all completed todos |
+
+---
+
+## 💬 Example Prompts
 
 ```
 Count the words in: "The quick brown fox jumps over the lazy dog"
-Calculate: sqrt(256) + 2 ** 8
+Calculate: sqrt(256) + 2 ** 10
 Convert 100 miles to km
+Is 97 a prime number?
+Generate a 20-character password with symbols
+Extract emails from: "contact john@example.com or jane@test.org"
 Add a high priority todo: "Learn MCP servers"
 List all my pending todos
-Is 97 a prime number?
-Generate a 20-character password
-Extract emails from: "contact john@example.com or jane@test.org"
 ```
 
-## Project Structure
+---
+
+## 🏃 Run Locally
+
+If you want to run your own instance:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/personal-toolkit-mcp-server
+cd personal-toolkit-mcp-server
+python -m venv venv
+source venv/bin/activate       # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Add to `claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "personal-toolkit-local": {
+      "command": "/path/to/venv/bin/python",
+      "args": ["/path/to/server.py"]
+    }
+  }
+}
+```
+
+---
+
+## 🚀 Deploy Your Own on Railway
+
+1. Fork this repo
+2. Go to [railway.app](https://railway.app) → **New Project** → **GitHub Repo**
+3. Select your fork → **Deploy**
+4. Go to **Settings → Networking → Generate Domain**
+5. Update the URL in your `claude_desktop_config.json`
+
+---
+
+## 🗂️ Project Structure
 
 ```
-local-mcp-server/
-├── server.py          # Main MCP server — tool registration & entry point
+├── server.py          # MCP server entry point
 ├── tools/
-│   ├── __init__.py    # Makes tools/ a Python package
 │   ├── text_tools.py  # Text utility functions
-│   ├── math_tools.py  # Math / calculator functions
+│   ├── math_tools.py  # Math functions
 │   └── todo_tools.py  # Persistent todo list (todos.json)
-├── requirements.txt
-└── README.md
+├── Procfile           # Railway start command
+└── requirements.txt
 ```
+
+---
+
+## 🛠️ Built With
+
+- [FastMCP](https://github.com/jlowin/fastmcp) — MCP server framework
+- [Railway](https://railway.app) — Deployment platform
+- [mcp-remote](https://github.com/geelen/mcp-remote) — HTTP→stdio bridge for Claude Desktop
